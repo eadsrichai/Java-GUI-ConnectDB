@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class MyStudent {
 
@@ -181,7 +182,7 @@ public class MyStudent {
 		});
 		btnAddStudent.setBackground(new Color(255, 128, 64));
 		btnAddStudent.setFont(new Font("Tahoma", Font.BOLD, 20));
-		btnAddStudent.setBounds(161, 227, 217, 44);
+		btnAddStudent.setBounds(164, 209, 217, 44);
 		frame.getContentPane().add(btnAddStudent);
 		
 		JButton btnShowStudent = new JButton("แสดงข้อมูลนักศึกษา");
@@ -200,13 +201,20 @@ public class MyStudent {
 		});
 		btnShowStudent.setFont(new Font("Tahoma", Font.BOLD, 20));
 		btnShowStudent.setBackground(new Color(255, 128, 64));
-		btnShowStudent.setBounds(388, 227, 237, 44);
+		btnShowStudent.setBounds(390, 209, 237, 44);
 		frame.getContentPane().add(btnShowStudent);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(48, 260, 641, 276);
+		frame.getContentPane().add(scrollPane);
+		
 		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setSurrendersFocusOnKeystroke(true);
+		table.setCellSelectionEnabled(true);
+		table.setColumnSelectionAllowed(true);
+		table.setFillsViewportHeight(true);
 		table.setFont(new Font("CordiaUPC", Font.PLAIN, 18));
-		table.setBounds(48, 282, 631, 200);
-		frame.getContentPane().add(table);
 		
 		showTable();
 	}
@@ -214,6 +222,7 @@ public class MyStudent {
 	private void showTable() throws ClassNotFoundException, SQLException {
 		StudentDAO stuDAO = new StudentDAO();
 		stuDAO.connectDb("root", "");
+		
 		table.setModel(stuDAO.getAllStudentToTable());
 	}
 }

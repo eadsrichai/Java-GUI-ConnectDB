@@ -36,7 +36,11 @@ public class StudentDAO {
 		Vector<String> columnNames = new Vector<String>();
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		try {
-			PreparedStatement pStatement = con.prepareStatement("SELECT * FROM student");
+			PreparedStatement pStatement = con.prepareStatement(""
+					+ "SELECT id_stu, pre_stu, fname_stu, lname_stu, gpa_stu, "
+					+ "name_dep FROM student LEFT JOIN dep ON "
+					+ "student.id_dep = dep.id_dep");
+			
 			ResultSet resultSet = pStatement.executeQuery();
 			ResultSetMetaData rsMeta = (ResultSetMetaData) resultSet.getMetaData();
 			int numberOfCols = rsMeta.getColumnCount();
@@ -44,6 +48,7 @@ public class StudentDAO {
 			for (int i = 1; i <= numberOfCols; i++) {
 				columnNames.add(rsMeta.getColumnName(i));
 			}
+				
 			while (resultSet.next()) {
 				Vector<String> row = new Vector<String>();
 				for (int i = 1; i <= numberOfCols; i++) {
@@ -57,7 +62,8 @@ public class StudentDAO {
 		for (int i = 0; i < columnNames.size(); i++) {
 			System.out.println(columnNames.get(i));
 		}
-		model.addColumn(columnNames);
+//		model.addColumn(columnNames);
+		
 		return model;
 
 	}
